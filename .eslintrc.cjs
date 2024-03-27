@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     // Common
     // 'no-console': 1,
+    'no-useless-catch': 0,
     'no-extra-boolean-cast': 0,
     'no-lonely-if': 1,
     'no-unused-vars': 1,
@@ -24,7 +25,7 @@ module.exports = {
     'space-before-blocks': ['error', 'always'],
     'object-curly-spacing': [1, 'always'],
     'indent': ['warn', 2],
-    'semi': [1, 'never'],
+    'semi': [1, 'always'],
     // 'quotes': ['error', 'single'],
     'array-bracket-spacing': 1,
     'linebreak-style': 0,
@@ -34,4 +35,4 @@ module.exports = {
     'comma-spacing': 1,
     'arrow-spacing': 1
   }
-}
+};

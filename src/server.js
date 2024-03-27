@@ -1,24 +1,44 @@
-import express from 'express'
-import { mapOrder } from '~/utils/sorts.js'
+import express from 'express';
+import cors from 'cors';
+import { corsOptions } from '~/config/cors';
+import { connectBb, getBd, closeDb } from '~/config/mongodb';
+import exitHook from 'async-exit-hook';
+import { env } from '~/config/environment';
+import { APIs_V1 } from '~/routes/v1/';
+import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware';
 
-const app = express()
 
-const hostname = 'localhost'
-const port = 8017
+const startServer = () => {
+  const app = express();
+  app.use(cors(corsOptions));
+  app.use(express.json());
+  app.use('/v1', APIs_V1);
 
-app.get('/', (req, res) => {
-  console.log(mapOrder(
-    [{ id: 'id-1', name: 'One' },
-      { id: 'id-2', name: 'Two' },
-      { id: 'id-3', name: 'Three' },
-      { id: 'id-4', name: 'Four' },
-      { id: 'id-5', name: 'Five' }],
-    ['id-5', 'id-4', 'id-2', 'id-3', 'id-1'],
-    'id'
-  ))
-  res.end('<h1>Hello World!</h1><hr>')
-})
+  app.use(errorHandlingMiddleware);
 
-app.listen(port, hostname, () => {
-  console.log(`Hello Trung Quan Dev, I am running at ${ hostname }:${ port }/`)
-})
+
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
+    console.log(`Hello ${env.AUTHOR}, I am running at ${ env.APP_HOST }:${ env.APP_PORT }/`);
+  });
+
+  exitHook(() => {
+    closeDb();
+  });
+};
+
+(async () => {
+  try {
+    await connectBb();
+    startServer();
+  } catch (error) {
+    process.exit(0);
+  }
+})();
+
+// connectBb()
+//   .then(() => console.log('đã kết nối DB '))
+//   .then(() => startServer())
+//   .catch(error => {
+//     console.log('Error: ' + error);
+//     process.exit(0);
+//   });
