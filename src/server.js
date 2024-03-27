@@ -19,7 +19,7 @@ const startServer = () => {
 
   if (env.BUILD_MODE === 'production') {
     app.listen(process.env.PORT, () => {
-      console.log(`Hello ${env.AUTHOR}, I am running at ${ process.env.PORT }/`);
+      console.log(`Xin chào ${env.AUTHOR}, Tôi đang chạy trên ${ process.env.PORT }/`);
     });
   } else {
     app.listen(env.APP_PORT, env.APP_HOST, () => {
