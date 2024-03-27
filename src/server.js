@@ -17,9 +17,16 @@ const startServer = () => {
   app.use(errorHandlingMiddleware);
 
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    console.log(`Hello ${env.AUTHOR}, I am running at ${ env.APP_HOST }:${ env.APP_PORT }/`);
-  });
+  if (env.BUILD_MODE === 'production') {
+    app.listen(process.env.PORT, () => {
+      console.log(`Hello ${env.AUTHOR}, I am running at ${ env.PORT }/`);
+    });
+  } else {
+    app.listen(env.APP_PORT, env.LOCAL_APP_HOST, () => {
+      console.log(`Hello ${env.AUTHOR}, I am running at ${ env.LOCAL_APP_HOST }:${ env.APP_PORT }/`);
+    });
+  }
+
 
   exitHook(() => {
     closeDb();
