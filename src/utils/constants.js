@@ -1,6 +1,7 @@
 export const WHITELIST_DOMAINS = [
-  // 'http://localhost:5173',
-  // 'http://localhost:8017',
+  'http://localhost:5173',
+  'http://localhost:8017',
+  'my-project-henna-chi.vercel.app'
 
 ];
 
